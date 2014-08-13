@@ -1,99 +1,108 @@
 module.exports = function(grunt) {
 
-  grunt.initConfig({
+	'use strict';
 
-    pkg: grunt.file.readJSON('package.json'),
+	grunt.initConfig({
 
-    concat: {
-      options: {
-		// define a string to put between each file in the concatenated output
-        separator: ';'
-      },
-      dist: {
-        src: ['www_development/js/index.js', 'www_development/js/index-2.js'],
-        dest: 'www/js/main.js'
-      }
-    },
+		pkg: grunt.file.readJSON('package.json'),
 
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-      },
-      dist: {
-        files: {
-          'www/js/main.min.js': ['www_development/js/index.js', 'www_development/js/index-2.js']
-        }
-      }
-    },
+		// Uglify this files
+		uglify: {
+			dev: {
+				options: {
+					mangle: false,
+					compress: false,
+					preserveComments: 'all',
+					beautify: true
+				},
+				files: {
+					'www/js/vendor.js': [
+						'www_development/js/vendor/jquery.mobile-1.4.3.min.js',
+						'www_development/js/vendor/bootstrap.min.js'
+					],
+					'www/js/main.js': [
+						'www_development/js/index.js',
+						'www_development/js/index-2.js'
+					]
+				}
+			},
+			dist: {
+				options: {
+					mangle: true,
+					compress: true
+				},
+				files: {
+					'www/js/vendor.js': [
+						'www_development/js/vendor/jquery.mobile-1.4.3.min.js',
+						'www_development/js/vendor/bootstrap.min.js'
+					],
+					'www/js/main.min.js': [
+						'www_development/js/index.js',
+						'www_development/js/index-2.js'
+					]
+				}
+			}
+		},
 
-    jshint: {
-      // define the files to lint
-      files: ['Gruntfile.js', 'www_development/js/index.js', 'twww_development/js/index-2.js'],
-      options: {
-        // options here to override JSHint defaults
-        globals: {
-          jQuery: true,
-          console: true,
-          module: true,
-          document: true
-        }
-      }
-    },
+		// Define this files to lint
+		jshint: {
+			files: ['Gruntfile.js', 'www_development/js/index.js', 'www_development/js/index-2.js'],
+			options: {
+				globals: {
+					jQuery: true,
+					console: true,
+					module: true,
+					document: true
+				}
+			}
+		},
 
-    watch: {
-      files: ['www_development/index.html', 'www_development/css/index.css', 'www_development/js/index.js', 'www_development/js/index-2.js'],
-      tasks: ['jshint']
-    }
+		// Sass configuration
+		sass: {
+			dev: {
+				options: {
+					sourceMap: true
+				},
+				files: {
+					'www/css/main.css': 'www_development/sass/main.scss'
+				}
+			},
+			dist: {
+				files: {
+					'www/css/main.css': 'www_development/sass/main.scss'
+				}
+			}
+		},
 
+		// Watch this files for changes
+		watch: {
+			files: ['www_development/index.html', 'www_development/css/index.css', 'www_development/js/index.js', 'www_development/js/index-2.js'],
+			tasks: ['jshint']
+		}
 
-	// watch: {
-	// 	compass: {
-	// 		files: ['sass/{,**/}*.scss'],
-	// 		tasks: ['compass:dev']
-	// 	},
-	// 	js: {
-	// 		files: '<%= jshint.all %>',
-	// 		tasks: ['jshint', 'uglify:dev']
-	// 	},
-	// 	livereload: {
-	// 		options: {
-	// 		livereload: true
-	// 	},
-	// 	files: [
-	// 		'www_development/index.html',
-	// 		'www_development/css/index.css',
-	// 		'www_development/js/index.js',
-	// 		'www_development/js/index-2.js',
-	// 		'images/{,**/}*.{png,jpg,jpeg,gif,webp,svg}'
-	// 		]
-	// 	}
-	// },
+	});
 
+	// load dependences
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-compass');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-sass');
 
+	// run grunt build
+	grunt.registerTask('build', [
+		'jshint',
+		'uglify:dist',
+		'sass:dist',
+		'watch'
+	]);
 
-
-
-
-  });
-
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-
-  grunt.registerTask('test', ['jshint']);
-
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'watch']);
-
-	// grunt.registerTask('default', [
-	// 	'copy',
-	// 	'jshint',
-	// 	'uglify:dev',
-	// 	'compass:dev',
-	// 	'watch'
-	// ]);
-
-
-
+	// run grunt default
+	grunt.registerTask('default', [
+		'jshint',
+		'uglify:dev',
+		'sass:dev',
+		'watch'
+	]);
 
 };
