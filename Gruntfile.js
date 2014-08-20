@@ -6,6 +6,29 @@ module.exports = function(grunt) {
 
 		pkg: grunt.file.readJSON('package.json'),
 
+		// Before generating any new files, remove any previously-created files.
+		clean: {
+			build: ['www/']
+		},
+
+		// Minify HTML
+		htmlmin: {
+			dev: {
+				files: {
+					'www/index.html': 'www_development/index.html'
+				}
+			},
+			build: {
+				options: {
+				removeComments: true,
+				collapseWhitespace: true
+			},
+			files: {
+					'www/index.html': 'www_development/index.html'
+				}
+			}
+		},
+
 		// Uglify this files
 		uglify: {
 			dev: {
@@ -17,8 +40,8 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'www/js/vendor.js': [
-						'www_development/js/vendor/jquery.mobile-1.4.3.min.js',
-						'www_development/js/vendor/bootstrap.min.js'
+						'www_development/js/vendor/jquery-1.11.1.min.js',
+						'www_development/js/vendor/jquery.mobile-1.4.3.min.js'
 					],
 					'www/js/main.js': [
 						'www_development/js/index.js',
@@ -26,15 +49,14 @@ module.exports = function(grunt) {
 					]
 				}
 			},
-			dist: {
+			build: {
 				options: {
-					mangle: true,
-					compress: true
+					mangle: true
 				},
 				files: {
-					'www/js/vendor.js': [
-						'www_development/js/vendor/jquery.mobile-1.4.3.min.js',
-						'www_development/js/vendor/bootstrap.min.js'
+					'www/js/vendor.min.js': [
+						'www_development/js/vendor/jquery-1.11.1.min.js',
+						'www_development/js/vendor/jquery.mobile-1.4.3.min.js'
 					],
 					'www/js/main.min.js': [
 						'www_development/js/index.js',
@@ -67,7 +89,7 @@ module.exports = function(grunt) {
 					'www/css/main.css': 'www_development/sass/main.scss'
 				}
 			},
-			dist: {
+			build: {
 				files: {
 					'www/css/main.css': 'www_development/sass/main.scss'
 				}
@@ -85,20 +107,26 @@ module.exports = function(grunt) {
 	// load dependences
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-compass');
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-htmlmin');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-sass');
 
 	// run grunt build
 	grunt.registerTask('build', [
+		'clean',
+		'htmlmin:build',
 		'jshint',
-		'uglify:dist',
-		'sass:dist',
+		'uglify:build',
+		'sass:build',
 		'watch'
 	]);
 
 	// run grunt default
 	grunt.registerTask('default', [
+		'clean',
+		'htmlmin:dev',
 		'jshint',
 		'uglify:dev',
 		'sass:dev',
