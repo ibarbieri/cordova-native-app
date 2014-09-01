@@ -30,3 +30,9 @@
      -moz-box-sizing: $boxmodel;
           box-sizing: $boxmodel;
 }
+
+// Remove padding and margin
+@mixin removePaddingAndMargin {
+  padding: 0;
+  margin: 0;
+}

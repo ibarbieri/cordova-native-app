@@ -8,25 +8,7 @@ module.exports = function(grunt) {
 
 		// Before generating any new files, remove any previously-created files.
 		clean: {
-			build: ['www/']
-		},
-
-		// Minify HTML
-		htmlmin: {
-			dev: {
-				files: {
-					'www/index.html': 'www_development/index.html'
-				}
-			},
-			build: {
-				options: {
-				removeComments: true,
-				collapseWhitespace: true
-			},
-			files: {
-					'www/index.html': 'www_development/index.html'
-				}
-			}
+			build: ['www/*.html', 'www/css/', 'www/js/']
 		},
 
 		// Uglify this files
@@ -39,13 +21,14 @@ module.exports = function(grunt) {
 					beautify: true
 				},
 				files: {
-					'www/js/vendor.js': [
+					'www/js/vendor.min.js': [
 						'www_development/js/vendor/jquery-1.11.1.min.js',
-						'www_development/js/vendor/jquery.mobile-1.4.3.min.js'
+						//'www_development/js/vendor/ratchet.min.js',
+						'www_development/js/vendor/push.js'
 					],
-					'www/js/main.js': [
-						'www_development/js/index.js',
-						'www_development/js/index-2.js'
+					'www/js/app-core.min.js': [
+						'www_development/js/app-init.js',
+						'www_development/js/get-posts.js'
 					]
 				}
 			},
@@ -54,13 +37,15 @@ module.exports = function(grunt) {
 					mangle: true
 				},
 				files: {
-					'www/js/vendor.min.js': [
+					'www/js/vendor/vendor.min.js': [
 						'www_development/js/vendor/jquery-1.11.1.min.js',
-						'www_development/js/vendor/jquery.mobile-1.4.3.min.js'
+						//'www_development/js/vendor/ratchet.min.js',
+						'www_development/js/vendor/push.js',
+						'www_development/js/vendor/sliders.js'
 					],
-					'www/js/main.min.js': [
-						'www_development/js/index.js',
-						'www_development/js/index-2.js'
+					'www/js/app-core.min.js': [
+						'www_development/js/app-init.js',
+						'www_development/js/get-posts.js'
 					]
 				}
 			}
@@ -68,7 +53,11 @@ module.exports = function(grunt) {
 
 		// Define this files to lint
 		jshint: {
-			files: ['Gruntfile.js', 'www_development/js/index.js', 'www_development/js/index-2.js'],
+			files: [
+					'Gruntfile.js',
+					'www_development/js/app-init.js',
+					'www_development/js/get-posts.js'
+					],
 			options: {
 				globals: {
 					jQuery: true,
@@ -82,55 +71,135 @@ module.exports = function(grunt) {
 		// Sass configuration
 		sass: {
 			dev: {
-				options: {
-					sourceMap: true
-				},
+			    options: {
+			      style: 'expanded',
+			      compass: true
+			    },
 				files: {
-					'www/css/main.css': 'www_development/sass/main.scss'
+					'www_development/css/app-core.css': 'www_development/sass/app-core.scss'
 				}
 			},
 			build: {
+			    options: {
+			      style: 'compress',
+			      compass: true
+			    },
 				files: {
-					'www/css/main.css': 'www_development/sass/main.scss'
+					'www/css/app-core.min.css': 'www_development/sass/app-core.scss'
 				}
 			}
 		},
 
+		// Combine adn minify the vendors css resources
+		cssmin: {
+			combine: {
+				files: {
+					'www/css/vendor/vendor.min.css': ['www_development/css/vendor/ratchet.min.css',
+													  'www_development/css/vendor/ratchet-theme-android.min.css',
+													  'www_development/css/vendor/bootstrap.min.css',
+													  'www_development/css/vendor/font-awesome.min.css']
+				}
+			},
+			minify: {
+			    expand: false,
+			    cwd: 'www/css/',
+			    src: ['*.css'],
+			    dest: 'www/css/'
+		  	}
+		},
+
 		// Watch this files for changes
 		watch: {
-			files: ['www_development/index.html', 'www_development/css/index.css', 'www_development/js/index.js', 'www_development/js/index-2.js'],
-			tasks: ['jshint']
-		}
+			scripts: {
+				files: 'www_development/**/*.js',
+				tasks: ['jshint'],
+			},
+			// css: {
+			// 	files: '**/*.sass',
+			// 	tasks: ['sass'],
+			// 	options: {
+			// 		livereload: true,
+			// 	},
+			// },
+		},
 
-	});
+		// Change the url of the static resources
+		processhtml: {
+			build: {
+				files: {
+					'www/index.html': ['www_development/index.html'],
+					'www/news.html': ['www_development/news.html'],
+				}
+			}
+		},
+
+		// Minify HTML
+		htmlmin: {
+			build: {
+				options: {
+					removeComments: true,
+					collapseWhitespace: true
+				},
+				files: {
+					'www/index.html': 'www/index.html'
+				}
+			}
+		},
+
+		// http server
+		'http-server': {
+
+            // the server root directory
+            root: '/Users/ibarbieri/Documents/workspace/cordova-native-app/www',
+
+            port: 8282,
+
+            host: "127.0.0.1",
+
+            cache: false,
+            showDir : true,
+            autoIndex: true,
+            defaultExt: "html",
+
+            // run in parallel with other tasks
+            runInBackground: true|false
+    	}
+
+
+	}); // end task
 
 	// load dependences
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
+	grunt.loadNpmTasks('grunt-processhtml');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-sass');
+	grunt.loadNpmTasks('grunt-http-server');
 
 	// run grunt build
 	grunt.registerTask('build', [
 		'clean',
+		'processhtml:build',
 		'htmlmin:build',
+		'cssmin',
 		'jshint',
 		'uglify:build',
 		'sass:build',
-		'watch'
+		'http-server',
+		'watch:scripts'
 	]);
 
 	// run grunt default
 	grunt.registerTask('default', [
-		'clean',
-		'htmlmin:dev',
 		'jshint',
 		'uglify:dev',
 		'sass:dev',
-		'watch'
+		'http-server',
+		'watch:scripts'
 	]);
 
 };

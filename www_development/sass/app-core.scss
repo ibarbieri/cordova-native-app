@@ -1,0 +1,18 @@
+/*--
+  Core variables and mixin
+--------------------------*/
+@import "variables";
+@import "mixins";
+
+/*--
+  Css Reset
+--------------------------*/
+@import "reset";
+
+// Wathc for more in
+// https://github.com/zilet/twitter-bootstrap-scaffolding-sass/tree/master/compass-style/sass
+
+
+body {
+	background-color: $backgroundApp;
+}
