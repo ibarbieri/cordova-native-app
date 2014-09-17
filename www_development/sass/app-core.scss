@@ -13,6 +13,186 @@
 // https://github.com/zilet/twitter-bootstrap-scaffolding-sass/tree/master/compass-style/sass
 
 
-body {
+/*--
+  Core styles
+--------------------------*/
+body,
+.content {
 	background-color: $backgroundApp;
+	-webkit-overflow-scrolling: touch;
+	overflow-y: scroll ;
 }
+
+main {
+	padding: 60px 10px 0 10px;
+}
+
+[data-visible="hidden"] {
+	display: none;
+}
+
+[data-visible="visible"] {
+	display: inline-block;
+}
+
+
+/*--
+  Header
+--------------------------*/
+header {
+	background-color: $backgroundHeader;
+	position: fixed;
+	right: 0;
+	left: 0;
+	padding: 0 10px;
+	z-index: 10;
+	height: 50px;
+	color: #FFF;
+}
+
+header a {
+	color: #FFF;
+}
+
+header i {
+	top: 12px;
+	position: absolute;
+}
+
+header .fa-bars {
+	font-size: 2.15em;
+	right: 10px;
+}
+
+header .fa-arrow-left {
+	font-size: 2.15em;
+	left: 10px;
+}
+
+.header-title {
+	text-align: center;
+	width: 50%;
+	margin: 12px auto 0 auto;
+	font-size: 22px;
+}
+
+
+/*--
+  News
+--------------------------*/
+#news {
+	overflow: hidden;
+}
+
+[class*="news-content"] {
+	margin: 10px 0;
+	position: relative;
+	background-color: $backgroundNews;
+		border-radius: 6px;
+	overflow: hidden;
+}
+
+#news ul li:after {
+	content: " ";
+	position: relative;
+	background-color: $backgroundNewsBefore;
+	height: 24px;
+	width: 100%;
+	display: block;
+	z-index: 0;
+}
+
+#news .news-title {
+	color: $colorTitle;
+	font-family: $fontTitle;
+	font-size: $fontSizeTitle;
+	font-weight: 400;
+	width: 83%;
+}
+
+#news .news-sub-title {
+	color: $colorSubTitle;
+	font-family: $fontSubTitle;
+	font-size: $fontSizeSubTitle;
+	font-weight: 400;
+}
+
+#news .news-titles-content {
+	float: left;
+	width: 100%;
+	padding: 10px;
+}
+
+#news .news-time-content {
+	position: absolute;
+	right: 5px;
+	top: 7px;
+	color: $colorNewsTime;
+}
+
+#news .news-time-content .news-time {
+	top: -1px;
+	position: relative;
+}
+
+#news .news-time-content i {
+	font-size: $fontSizeIconNewsTime;
+	padding: 0 5px 0 0;
+}
+
+#news .news-heart-content,
+#news .news-social-content {
+	position: relative;
+	z-index: 2;
+	color: $colorIcon;
+	margin: -10px 10px 0 10px;
+}
+
+#news .news-heart-content i,
+#news .news-social-content i {
+	font-size: $fontSizeIconNews;
+	padding: 0px 3px;
+}
+
+.news-heart-content i {
+	color: $colorHeart;
+}
+
+.news-heart-content {
+	float: left;
+}
+
+.news-social-content {
+	float: right;
+}
+
+
+/*--
+  Slider
+--------------------------*/
+.slider .slide-group {
+	// position: absolute;
+}
+
+
+/*--
+  Nav
+--------------------------*/
+nav .tab-item .fa:before {
+	font-size: $fontSizeIconFooterNav;
+}
+
+nav .tab-item .fa-home:before {
+	font-size: 29px;
+}
+
+nav .tab-label {
+	font-size: 12px;
+	display: block;
+}
+
+
+.bar-tab .tab-item.active {
+	color: $colorIconSelected;
+}
+

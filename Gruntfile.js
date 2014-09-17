@@ -24,11 +24,18 @@ module.exports = function(grunt) {
 					'www/js/vendor.min.js': [
 						'www_development/js/vendor/jquery-1.11.1.min.js',
 						//'www_development/js/vendor/ratchet.min.js',
-						'www_development/js/vendor/push.js'
+						'www_development/js/vendor/push.js',
+						'www_development/js/vendor/toggles.js',
+						'www_development/js/vendor/sliders.js',
+						'www_development/js/vendor/moment.min.js'
 					],
 					'www/js/app-core.min.js': [
-						'www_development/js/app-init.js',
-						'www_development/js/get-posts.js'
+						'www_development/js/app-core.js',
+						'www_development/js/get-home-data.js',
+						'www_development/js/get-news-data.js',
+						'www_development/js/get-videos-data.js',
+						'www_development/js/get-fixture-data.js',
+						'www_development/js/app-start.js'
 					]
 				}
 			},
@@ -41,11 +48,17 @@ module.exports = function(grunt) {
 						'www_development/js/vendor/jquery-1.11.1.min.js',
 						//'www_development/js/vendor/ratchet.min.js',
 						'www_development/js/vendor/push.js',
-						'www_development/js/vendor/sliders.js'
+						'www_development/js/vendor/toggles.js',
+						'www_development/js/vendor/sliders.js',
+						'www_development/js/vendor/moment.min.js',
 					],
 					'www/js/app-core.min.js': [
-						'www_development/js/app-init.js',
-						'www_development/js/get-posts.js'
+						'www_development/js/app-core.js',
+						'www_development/js/get-home-data.js',
+						'www_development/js/get-news-data.js',
+						'www_development/js/get-videos-data.js',
+						'www_development/js/get-fixture-data.js',
+						'www_development/js/app-start.js'
 					]
 				}
 			}
@@ -55,8 +68,12 @@ module.exports = function(grunt) {
 		jshint: {
 			files: [
 					'Gruntfile.js',
-					'www_development/js/app-init.js',
-					'www_development/js/get-posts.js'
+					'www_development/js/app-core.js',
+					'www_development/js/get-home-data.js',
+					'www_development/js/get-news-data.js',
+					'www_development/js/get-videos-data.js',
+					'www_development/js/get-fixture-data.js',
+					'www_development/js/app-start.js'
 					],
 			options: {
 				globals: {
@@ -95,7 +112,7 @@ module.exports = function(grunt) {
 			combine: {
 				files: {
 					'www/css/vendor/vendor.min.css': ['www_development/css/vendor/ratchet.min.css',
-													  'www_development/css/vendor/ratchet-theme-android.min.css',
+													  'www_development/css/vendor/ratchet-theme-ios.min.css',
 													  'www_development/css/vendor/bootstrap.min.css',
 													  'www_development/css/vendor/font-awesome.min.css']
 				}
@@ -129,6 +146,9 @@ module.exports = function(grunt) {
 				files: {
 					'www/index.html': ['www_development/index.html'],
 					'www/news.html': ['www_development/news.html'],
+					'www/fixture.html': ['www_development/fixture.html'],
+					'www/videos.html': ['www_development/videos.html'],
+					'www/alerts.html': ['www_development/alerts.html'],
 				}
 			}
 		},

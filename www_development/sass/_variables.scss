@@ -1,4 +1,39 @@
 /*--
   Core variables and mixin
 --------------------------*/
-$backgroundApp: #000000; !default;
+// App
+$backgroundApp: #F4F9FF;
+
+$backgroundHeader: #4A9FFC;
+$backgroundFooter: #F9F9F9;
+
+$backgroundFooterModule: #F7F7F7;
+
+$fontSizeIconFooterNav: 24px;
+
+
+// News
+$backgroundNews: #FFFFFF;
+$backgroundNewsBefore: #F7F7F7;
+
+$colorIcon: #B5B5B5;
+$colorIconSelected: #0079FE;
+$colorHeart: #FABC01;
+
+$colorTitle: #4A9FFC;
+$colorSubTitle: #919191;
+$colorParagraph: #B5B5B5;
+$colorNewsTime: #D3D3D3;
+
+$fontSizeTitle: 18px; //24/13;
+$fontSizeSubTitle: 14px;
+$fontSizeParagraph: 11px;
+$fontSizeIconNews: 24px;
+$fontSizeIconNewsTime: 18px;
+
+$fontTitle: 'Lato', Arial;
+$fontSubTitle: 'Lato', Arial;
+
+// Fixture
+$colorRedCard: #F75953;
+$colorYellowCard: #FABC01;

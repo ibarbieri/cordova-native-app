@@ -3,10 +3,18 @@
 // Adapted from http://github.com/necolas/normalize.css
 // --------------------------------------------------
 
+html,
+body,
+h1,
+h2,
+h3 {
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+}
 
 // Display in IE6-9 and FF3
 // -------------------------
-
 article,
 aside,
 details,
