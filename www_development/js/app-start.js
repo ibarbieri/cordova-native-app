@@ -9,14 +9,22 @@
 	var on = (win.addEventListener !== undefined) ? 'addEventListener' : 'attachEvent',
 		iconMenu = document.getElementsByClassName('icon-menu'),
 		navSection = document.getElementById('navSection'),
+		navSectionLinks = navSection.getElementsByTagName('a'),
 		clickedButton,
 		loadHomeSection = new Event('loadHomeSection'),
 		loadNewsSection = new Event('loadNewsSection'),
 		loadVideosSection = new Event('loadVideosSection'),
 		loadFixtureSection = new Event('loadFixtureSection'),
 		loadAlertsSection = new Event('loadAlertsSection'),
+		sectionUpdate = new Event('sectionUpdate'),
 		sections = document.getElementsByTagName('section'),
 		sectionsLength = sections.length,
+		homeContext = $('#home ul'),
+		newsContext = $('#news ul'),
+		fixtureContext = $('#fixture ul'),
+		videosContext = $('#videos ul'),
+		alertsContext = $('#alerts ul'),
+		currentSectionShowed = 'home',
 		i;
 
 
@@ -25,7 +33,7 @@
 
 
 	// Get clicked button and call the dispatch event function
-	function getClickedButton () {
+	function getClickedButton (event) {
 		clickedButton = event.target.getAttribute('data-button');
 		dispatchEvents(clickedButton);
 	}
@@ -33,91 +41,88 @@
 
 	// Load sections content
 	function dispatchEvents (clickedButton) {
+		// reeplazar por case
 		if (clickedButton == 'home') {
 			this.dispatchEvent(loadHomeSection);
-
 		} else if (clickedButton == 'news') {
 			this.dispatchEvent(loadNewsSection);
-
 		} else if (clickedButton == 'videos') {
 			this.dispatchEvent(loadVideosSection);
-
 		} else if (clickedButton == 'fixture') {
 			this.dispatchEvent(loadFixtureSection);
-
 		} else if (clickedButton == 'alerts') {
 			this.dispatchEvent(loadAlertsSection);
 		}
 	}
 
 
-	// Listen the click button in the nav-section
-	navSection[on]('touchstart', getClickedButton, false);
-
-
 	// Listes the loadHomeSection event
-	win.addEventListener('loadHomeSection', function () {
+	win[on]('loadHomeSection', function () {
 
-		// Show only the current section
-		showCurrentSection('home');
-		console.log(this);
+		currentSectionShowed = 'home';
 
-		// Load the home data
+		showCurrentSection(currentSectionShowed);
+		setSectionSelected(currentSectionShowed);
+
 		win.getHomeData();
 
 	}, false);
 
 
+
 	// Listes the loadNewsSection event
-	win.addEventListener('loadNewsSection', function () {
+	win[on]('loadNewsSection', function () {
 
-		// Show only the current section
-		showCurrentSection('news');
+		currentSectionShowed = 'news';
 
-		// Load the news data
+		showCurrentSection(currentSectionShowed);
+		setSectionSelected(currentSectionShowed);
+
 		win.getNewsData();
 
 	}, false);
 
 
+
 	// Listes the loadVideosSection event
-	win.addEventListener('loadVideosSection', function () {
+	win[on]('loadVideosSection', function () {
 
-		// Show only the current section
-		showCurrentSection('videos');
+		currentSectionShowed = 'videos';
 
-		// Load the Videos data
+		showCurrentSection(currentSectionShowed);
+		setSectionSelected(currentSectionShowed);
+
 		win.getVideosData();
 
 	}, false);
 
 
 	// Listes the loadFixtureSection event
-	win.addEventListener('loadFixtureSection', function () {
+	win[on]('loadFixtureSection', function () {
 
-		// Show only the current section
-		showCurrentSection('fixture');
+		currentSectionShowed = 'fixture';
 
-		// Load the Fixture data
+		showCurrentSection(currentSectionShowed);
+		setSectionSelected(currentSectionShowed);
+
 		win.getFixtureData();
 
 	}, false);
 
 
 	// Listes the loadAlertsSection event
-	win.addEventListener('loadAlertsSection', function () {
+	win[on]('loadAlertsSection', function () {
 
-		// Show only the current section
-		showCurrentSection('alerts');
+		currentSectionShowed = 'alerts';
 
-		// Load the Alerts data
-		win.getAlertsData();
+		showCurrentSection(currentSectionShowed);
+		setSectionSelected(currentSectionShowed);
 
 	}, false);
 
 
-	// Check if the actual section is hidden and hide the others sections
-	var showCurrentSection = function (currentSection) {
+	// Hide all the sections and show only the current section
+	var showCurrentSection = function (currentSectionShowed) {
 
 		// Add hidden to all sections
 		for (i = 0; i < sectionsLength; i++) {
@@ -125,8 +130,59 @@
 		}
 
 		// Add visible atribute to current section
-		document.getElementById(currentSection).setAttribute('data-visible', 'visible');
+		document.getElementById(currentSectionShowed).setAttribute('data-visible', 'visible');
 	};
+
+
+	// Select the current section and deselect others
+	var setSectionSelected = function (currentSectionShowed) {
+
+		// Remove active class for all icons
+		for (i = 0; i < navSectionLinks.length; i++) {
+			navSectionLinks[i].className = ' tab-item';
+		}
+
+		// Add active class to the clicked icon
+		document.getElementById('btn-'+currentSectionShowed).className = ' tab-item active';
+	};
+
+
+	// Get section data Update
+	var getSectionDataUpdate = function (currentSectionShowed) {
+		console.log('¿hay actualización en?', currentSectionShowed);
+
+		if (currentSectionShowed == 'home') {
+			win.getHomeData();
+		} else if (currentSectionShowed == 'news') {
+			win.getNewsData();
+		} else if (currentSectionShowed == 'videos') {
+			win.getVideosData();
+		} else if (currentSectionShowed == 'fixture') {
+			win.getFixtureData();
+		} else if (currentSectionShowed == 'alerts') {
+			//
+		}
+	};
+
+
+	// Run the sectionUpdate event each minute (60")
+	// Falta saber cuando se elimina una noticia o se da de baja, para bajarla.
+	// Hay que saber en que posicion esta y hacer un split del array.
+	// setInterval( function () {
+	// 	//console.log('despatch event');
+	// 	//win.dispatchEvent(sectionUpdate);
+	// 	getSectionDataUpdate(currentSectionShowed);
+	// }, 60000);
+
+
+	// setInterval( function () {
+	// 	getSectionDataUpdate(currentSectionShowed);
+	// }, 60000);
+
+
+	// Listen events
+	navSection[on]('touchstart', getClickedButton, false);
+	//win[on]('sectionUpdate', getSectionDataUpdate(currentSectionShowed));
 
 
 }(this));

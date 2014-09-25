@@ -143,8 +143,11 @@ body, .content {
 main {
   padding: 60px 10px 0 10px; }
 
-.hidden {
+[data-visible="hidden"] {
   display: none; }
+
+[data-visible="visible"] {
+  display: inline-block; }
 
 /*--
   Header

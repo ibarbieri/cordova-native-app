@@ -51,19 +51,19 @@
         </header>
 
         <nav id="navSection" class="bar bar-tab">
-            <a class="tab-item active" href="#">
+            <a id="btn-home" class="tab-item active" href="#">
                 <i class="fa fa-home" data-button="home"></i>
             </a>
-            <a class="tab-item" href="#">
+            <a id="btn-news" class="tab-item" href="#">
                 <i class="fa fa-newspaper-o" data-button="news"></i>
             </a>
-            <a class="tab-item" href="#">
+            <a id="btn-fixture" class="tab-item" href="#">
                 <i class="fa fa-calendar" data-button="fixture"></i>
             </a>
-            <a class="tab-item" href="#">
-                <i class="fa fa-file-video-o" data-button="video"></i>
+            <a id="btn-videos" class="tab-item" href="#">
+                <i class="fa fa-file-video-o" data-button="videos"></i>
             </a>
-            <a class="tab-item" href="#">
+            <a id="btn-alerts" class="tab-item" href="#">
                 <i class="fa fa-bell-o" data-button="alerts"></i>
             </a>
         </nav>
@@ -71,23 +71,23 @@
         <main id="main-content" class="content" data-main="home">
             <i class="fa fa-spinner fa-spin"></i>
 
-            <section id="home" data-visible="hidden">
-                <ul>
+            <section id="home" data-visible="visible">
+                <ul id="homeNewsList">
                 </ul>
             </section>
 
             <section id="news" data-visible="hidden">
-                <ul>
+                <ul id="newsList">
                 </ul>
             </section>
 
             <section id="fixture" data-visible="hidden">
-                <ul>
+                <ul id="fixtureList">
                 </ul>
             </section>
 
             <section id="videos" data-visible="hidden">
-                <ul>
+                <ul id="videosList">
                 </ul>
             </section>
 
